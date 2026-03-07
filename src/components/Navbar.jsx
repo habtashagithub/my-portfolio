@@ -13,19 +13,31 @@ const navItems = [
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [theme, setTheme] = useState("light");
+
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) return savedTheme;
+    return document.documentElement.classList.contains("dark") ? "dark" : "light";
+  });
 
   // toggle theme
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    localStorage.setItem("theme", newTheme);
+
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   };
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -40,18 +52,18 @@ export const Navbar = () => {
       )}
     >
       <div className="container flex items-center justify-between">
+
         {/* Logo */}
         <a
           className="text-xl font-bold text-primary flex items-center"
           href="#hero"
         >
           <span className="relative z-10">
-            <span className="text-glow text-foreground">haSha</span>{" "}
-            Portfolio
+            <span className="text-glow text-foreground">haSha</span> Portfolio
           </span>
         </a>
 
-        {/* desktop nav */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8 items-center">
           {navItems.map((item, key) => (
             <a
@@ -64,9 +76,10 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* right side controls (theme + menu) */}
+        {/* Right Controls */}
         <div className="flex items-center space-x-3">
-          {/* theme toggle (always visible) */}
+
+          {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
             className="p-2 rounded-full hover:bg-muted transition"
@@ -75,7 +88,7 @@ export const Navbar = () => {
             {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
           </button>
 
-          {/* mobile menu button (only visible on small screens) */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="md:hidden p-2 text-foreground z-50"
@@ -85,7 +98,7 @@ export const Navbar = () => {
           </button>
         </div>
 
-        {/* mobile menu overlay */}
+        {/* Mobile Menu */}
         <div
           className={cn(
             "fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center",
@@ -108,6 +121,7 @@ export const Navbar = () => {
             ))}
           </div>
         </div>
+
       </div>
     </nav>
   );
