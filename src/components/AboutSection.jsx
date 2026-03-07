@@ -30,6 +30,7 @@ export const AboutSection = () => {
                 {" "}
                 Get In Touch
               </a>
+             <a href="file:///C:/Users/BUCHA/Downloads/cvportfolio.pdf" download className="cosmic-button"> Download Resume</a>
             </div>
           </div>
 
