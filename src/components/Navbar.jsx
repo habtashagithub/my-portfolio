@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", href: "#hero" },
@@ -20,7 +21,6 @@ export const Navbar = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -41,7 +41,8 @@ export const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-8 items-center">
+        <div className="hidden md:flex items-center space-x-6">
+
           {navItems.map((item, index) => (
             <a
               key={index}
@@ -51,6 +52,10 @@ export const Navbar = () => {
               {item.name}
             </a>
           ))}
+
+          {/* Theme Toggle in middle */}
+          <ThemeToggle />
+
         </div>
 
         {/* Mobile Menu Button */}
