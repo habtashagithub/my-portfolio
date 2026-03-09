@@ -1,3 +1,5 @@
+import { Mail, Phone, MapPin, Linkedin, Instagram } from "lucide-react";
+
 export const ContactSection = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
